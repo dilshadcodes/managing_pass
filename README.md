@@ -32,17 +32,38 @@ A lightweight, secure, and offline command-line Password Manager built in Python
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/Managing_Pass.git
-cd Managing_Pass
+git clone https://github.com/dilshadcodes/managing_pass.git
+cd managing_pass
 ```
 
-### 2. Install Dependencies
-You can install the required packages using `pip`:
+### 2. Set Up a Virtual Environment
+Create and activate a virtual environment:
+
+- **Windows (PowerShell):**
+  ```powershell
+  python -m venv venv
+  .\venv\Scripts\Activate.ps1
+  ```
+
+- **Windows (Command Prompt):**
+  ```cmd
+  python -m venv venv
+  .\venv\Scripts\activate.bat
+  ```
+
+- **macOS / Linux:**
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+
+### 3. Install Dependencies
+Install the required packages:
 ```bash
 pip install cryptography openpyxl
 ```
 
-### 3. Run the Application
+### 4. Run the Application
 ```bash
 python password_manager.py
 ```
