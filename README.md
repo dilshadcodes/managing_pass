@@ -58,9 +58,9 @@ Create and activate a virtual environment:
   ```
 
 ### 3. Install Dependencies
-Install the required packages:
+Install the pinned dependencies from `requirements.txt`:
 ```bash
-pip install cryptography openpyxl
+pip install -r requirements.txt
 ```
 
 ### 4. Run the Application
