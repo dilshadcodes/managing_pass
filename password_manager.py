@@ -143,17 +143,19 @@ def find_row(ws, serial: int):
 
 
 def get_next_serial(ws) -> int:
-    """Auto-assign next Serial No as max(existing) + 1, or 1 if empty."""
-    max_serial = 0
+    """Find the lowest available Serial No starting from 1 (reuses deleted IDs)."""
+    existing = set()
     for row in ws.iter_rows(min_row=2, values_only=True):
         try:
             if row[0] is not None and str(row[0]).strip() != "":
-                val = int(row[0])
-                if val > max_serial:
-                    max_serial = val
+                existing.add(int(row[0]))
         except (ValueError, TypeError):
             continue
-    return max_serial + 1
+
+    candidate = 1
+    while candidate in existing:
+        candidate += 1
+    return candidate
 
 
 def append_entry(ws, serial, platform, username, hash_password):
@@ -579,8 +581,19 @@ def list_passwords():
     wb = load_or_create_workbook()
     ws = wb[SHEET_NAME]
 
-    # Get all rows except header
-    rows = list(ws.iter_rows(min_row=2, values_only=True))
+    # Get all rows except header and sort by Serial No
+    rows = []
+    for r in ws.iter_rows(min_row=2, values_only=True):
+        if r[0] is not None and str(r[0]).strip() != "":
+            rows.append(r)
+
+    def sort_key(row):
+        try:
+            return (0, int(row[0]))
+        except (ValueError, TypeError):
+            return (1, str(row[0]))
+
+    rows.sort(key=sort_key)
 
     if not rows:
         print()
